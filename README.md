@@ -27,6 +27,10 @@ We use madt_lib Python API to configure a model. It provides four classes for de
 * madt_lib.Overlay used to configure dynamic routing in the network. This is necessary for transferring data between computers from different subnets. 
 * madt_lib.Network represents a wide or local area network. Each node, subnet or overlay of a network should be created only using its methods. A laboratory can have only one global network that can be used to create multiple local ones. 
 
+## Docs
+
+English docs: http://srv02.dltc.spbu.ru:8275/
+Russian docs: http://srv02.dltc.spbu.ru:8276/
 
 ## Docker runtime
 ### Build sequence:
@@ -45,6 +49,9 @@ We use madt_lib Python API to configure a model. It provides four classes for de
 
 
 ## Cluster runtime
+
+Caution! Work in progress!
+
 ### Build sequence:
 
 ### Server:
