@@ -1,0 +1,14 @@
+FROM madt
+
+RUN echo "root:debug" | chpasswd && \
+    sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/g' /etc/ssh/sshd_config && \
+    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+ENTRYPOINT /usr/sbin/sshd -E /home/demo/ssh.log; \
+           dockerd --oom-score-adjust 500 --log-level debug & \
+           pid=$!; \
+           (sh /home/demo/images/build.sh); \
+           docker build -t madt/nginx /home/demo/tutorials/basic; \
+           docker build -t madt/pyget /home/demo/tutorials/monitoring; \
+           wait $pid
+
