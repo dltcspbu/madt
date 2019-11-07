@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Graph demo</title>
+    <meta name="description" content="Router killa">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.9.1/cytoscape.min.js" integrity="sha256-va7GvdO230UBsxDJduHN6PUOFCDguej/Krt8nDjG4yU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-cose-bilkent@4.0.0/cytoscape-cose-bilkent.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+      .log__content__text {
+        height: 100%;
+      }
+
+      .back-link {
+        padding: 7px;
+        background: lightgray;
+        border-radius: 5px;
+        position: absolute;
+        top: 7px;
+        left: 7px;
+      }
+
+      .graph {
+        width: 100vw;
+        height: 75vh;
+        margin: 0px;
+        border-bottom: 1px solid lightgray;
+        display: block;
+      }
+
+      .label {
+        background-color: #fff;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        position: absolute;
+      }
+
+      .log {
+        height: 25vh;
+      }
+
+      .log__tabs {
+        height: 100%;
+        padding: 0;
+        border-right: 1px solid lightgray;
+      }
+
+      .log__tabs__filter {
+        margin: 3% 0 3% 3%;
+        height: 2em;
+        width: calc(100% - 1em - 3%);
+      }
+
+      .log__tabs__list {
+        border-top: 1px solid lightgray;
+        height: calc(100% - 8% - 2em);
+        overflow-y: scroll;
+      }
+
+      .log__content {
+        height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+
+      .log__tabs__list__link {
+        width: 100%;
+        cursor: pointer;
+      }
+
+      .hidden {
+        display: none;
+        visibility: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="back-link" style="z-index: 2">
+      <a href="/lab/{{ lab }}">back to lab</a>
+    </div>
+
+    <div class="graph"></div>
+
+    <div class="container-fluid">
+      <div class="row log">
+        <div class="col-sm-2 log__tabs">
+          <input type="text" class="form-control log__tabs__filter" placeholder="filter...">
+          <ul class="list-group list-group-flush log__tabs__list">
+          </ul>
+        </div>
+
+        <div class="col-sm-10 log__content">
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+      String.prototype.replaceAll = function(search, replacement) {
+          var target = this;
+          return target.replace(new RegExp(search, 'g'), replacement);
+      };
+
+      let log_tabs = {};
+      let tab_links_list = $('.log__tabs__list');
+      let tabs_list = $('.log__content');
+
+
+      var cy;
+
+      // load grapg and make log pages
+      $.getJSON('/graph.json?lab={{ lab }}', function (graph) {
+
+        cy = cytoscape({
+          container: $('.graph'),
+          elements: graph,
+          wheelSensitivity: 0.2,
+          layout: {
+            name: 'cose-bilkent',
+            // nodeRepulsion: Math.pow(10, Math.floor(graph.nodes.length / 5)),
+            nodeRepulsion: 20000,
+            gravity: 0.1,
+            nodeDimensionsIncludeLabels: true,
+            animate: 'end'
+          }, 
+          style: [
+            {
+              selector: 'node',
+              style: {
+                'background-color': 'DimGrey'
+              }
+            },
+            {
+              selector: 'node[network]',
+              style: {
+                'width': '1px',
+                'height': '1px'
+              }
+            },
+            {
+              selector: 'node[^network]',
+              style: {
+                'label': 'data(id)'
+              }
+            },
+            {
+              selector: 'node[?router]',
+              style: {
+                shape: 'rectangle',
+                width: '15px',
+                height: '15px'
+              }
+            },
+            {
+              selector: 'node[status = 4]',
+              style: {
+                'background-color': '#0099cc'
+              }
+            },
+            {
+              selector: 'node[status = 1]',
+              style: {
+                'background-color': '#cc3333'
+              }
+            }, {
+              selector: 'node[status = 2]',
+              style: {
+                'background-color': '#ffcc33'
+              }
+            }, {
+              selector: 'node[status = 3]',
+              style: {
+                'background-color': '#6600cc'
+              }
+            }, {
+              selector: 'node[status = 0]',
+              style: {
+                'background-color': '#00cc33'
+              }
+            },
+          ]
+        });
+
+        graph.nodes.forEach(n => {
+
+          if (n.scratch && n.scratch.image != 'madt/quagga') {
+            let name = n.data.id;
+            tab_links_list.append(`<li class="list-group-item log__tabs__list__link" data-tab="${name}">${name}</li>`);
+            tabs_list.append(`<code class="log__content__text text-dark hidden" id="${name}"></code>`);
+            log_tabs[name] = $(`#${name}`);
+          }
+        });
+
+        tab_links_list.children(':first').addClass('active');
+        tabs_list.children(':first').removeClass('hidden');
+
+        cy.nodes().on('click', e => {
+          let node = e.target;
+
+          if (node.data('network')) {
+            return
+          }
+
+          window.open(`/container/{{ prefix }}${node.data('id')}?lab={{ lab }}`, "_blank");
+        });
+      });
+
+
+      // sidebar links
+      tab_links_list.on('click', 'li', ev => {
+        let target = $(ev.target);
+
+        tab_links_list.children().removeClass('active');
+        target.addClass('active');
+
+        tabs_list.children().addClass('hidden');
+
+        console.log(target.data('tab'));
+
+        log_tabs[target.data('tab')].removeClass('hidden');
+      });
+
+
+      // sidebar filter
+      $('.log__tabs__filter').keyup(ev => {
+
+    		let text = $(ev.target).val();
+
+    		tab_links_list.children().each((idx, e) => {
+    			console.log($(e).text().indexOf(text));
+    			if ($(e).text().indexOf(text) == -1) {
+    				$(e).addClass('hidden');
+    			} else {
+    				$(e).removeClass('hidden');
+    			}
+    		});
+    	});
+
+
+      function update_colors() {
+        $.getJSON('/messages.json?lab={{ lab }}', function (messages) {
+
+          if (!messages)return;
+
+
+          let msg_arr = Object.values(messages);
+          let tf_arr = msg_arr.filter(el => el.hasOwnProperty('traffic')).map(el => el.traffic);
+
+          let min_traffic = Math.min.apply(Math, tf_arr);
+          let max_traffic = Math.max.apply(Math, tf_arr);
+
+          let prefix = '{{ prefix }}';
+
+          cy.nodes().forEach((node) =>{
+            if (typeof node.data('network') !== "undefined") return
+
+            let full_name = prefix + node.id();
+
+            if (full_name in messages) {
+              let msg = messages[full_name];
+
+              node.data('active', true);
+              let parsedStatus = parseInt(msg.status);
+              if (!isNaN(parsedStatus)) {
+                node.data('status', parsedStatus);
+              } else {
+                console.log(msg.status);
+              }
+
+
+              if (msg.hasOwnProperty('traffic')) {
+                let scale = 10 * Math.ceil(100*(msg.traffic - min_traffic) / (max_traffic - min_traffic));
+                if (isNaN(parsedStatus)) {
+                  console.log(msg);
+                }
+
+                node.css({'padding': scale + '%'})
+              }
+
+              if (msg.hasOwnProperty('log') && log_tabs[node.data('id')]) {
+                log_tabs[node.data('id')].append(msg.log.replaceAll('\n', '<br/>') + '<br/>');
+              }
+
+            } else if (node.data('active')) {
+              console.log(node.data('id'));
+              node.data('status', 4);
+            }
+
+          });
+
+          $('.log__content')[0].scrollTop = $('.log__content')[0].scrollHeight;
+        });
+      }
+
+      setInterval(update_colors, 1000);
+    </script>
+  </body>
+</html>

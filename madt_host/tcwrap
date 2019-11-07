@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+import sys
+import os
+import subprocess
+
+try:
+    config_root = os.environ['TCWRAP_DIR']
+except KeyError:
+    config_root = '/etc/tcwrap'
+
+if __name__ == "__main__":
+
+    sys.argv.pop(0)
+
+    if sys.argv[0] not in ['tcset', 'tcdel']:
+        raise Exception("Wrong use. First argument must be tc[set|del] command to wrap")
+    elif sys.argv[0] == 'tcget':
+        raise Exception("Wrong use. Tcget is not supported yet")
+
+    c_id = None
+    lab = None
+    i = 0
+    while i < len(sys.argv):
+        arg = sys.argv[i]
+        if arg == "--lab":
+            lab = sys.argv[i+1]
+            sys.argv.pop(i)
+            sys.argv.pop(i)
+            continue
+
+        if arg == "--docker":
+            c_id = sys.argv[i+1]
+            sys.argv.pop(i)
+            sys.argv.pop(i)
+            continue
+        i+=1
+
+    if c_id is None:
+        raise Exception("Wrong use. tcwrap works only with --docker")
+
+    tc_cmd = ' '.join(sys.argv)
+
+    cmd = []
+
+    if lab is None:
+        print('No lab was specified, running pure tc')
+
+    else:
+        config_path = os.path.join(config_root, lab)
+        print('Reading config for lab={} (at {})'.format(lab, config_path))
+
+        interfaces = []
+        with open(config_path) as config_file:
+            for line in config_file:
+                line = line.strip()
+                if line.split(' ')[0] == c_id:
+                    interfaces.extend(line.split(' ')[1:])
+                    break
+
+        if not interfaces:
+            print('No additional interfaces info')
+        else:
+            cmd.append('pid=$(/usr/local/bin/docker inspect -f "{{{{.State.Pid}}}}" "{}");'.format(c_id))
+
+            for ifc in interfaces:
+                cmd.append('ip netns exec $pid ' + tc_cmd + ' ' + ifc + ';')
+
+    cmd.append(tc_cmd + ' --docker ' + c_id + ';')
+
+    cmd = '\n'.join(cmd)
+
+    print('\n[ cmd ]', cmd, '[ end cmd ]\n', sep='\n')
+
+    ret = subprocess.run(cmd, shell=True, capture_output=True)
+
+    print('[ out ]', ret.stdout.decode(), ret.stderr.decode())
