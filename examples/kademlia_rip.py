@@ -1,30 +1,36 @@
 import sys
-sys.path.append('..')
-
+from argparse import ArgumentParser
 from madt_lib.network import Network, Overlay
 
-if len(sys.argv) != 2:
-    print('Usage python ____ [ lab_path ]')
-    sys.exit(1)
+sys.path.append('..')
 
 
-main_net = Network('15.0.0.0/8')
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("lab_path", type=str, help='path to the lab directory')
+    args = parser.parse_args()
 
-size = 3
+    main_net = Network('15.0.0.0/8')
 
-core = main_net.generate_nodes('core_', size)
-nodes = main_net.generate_nodes('n', size*2, image='kademlia')
+    size = 3
 
-main_net.create_subnet('core_net', core)
+    core = main_net.generate_nodes('core_', size)
+    nodes = main_net.generate_nodes('n', size * 2, image='kademlia')
 
-for i in range(len(core)):
-	main_net.create_subnet('radial_' + str(i), (core[i], nodes[2*i], nodes[2*i + 1]))
+    main_net.create_subnet('core_net', core)
 
-main_net.create_overlay(Overlay.RIP, 'RIP_1', core)
+    for i in range(len(core)):
+        main_net.create_subnet('radial_' + str(i), (core[i], nodes[2 * i], nodes[2 * i + 1]))
 
-main_net.configure(verbose=True)
+    main_net.create_overlay(Overlay.RIP, 'RIP_1', core)
 
-for n in nodes[1:]:
-    n.add_options(environment={'KADEMLIA_ARGS': nodes[0].get_ip()})
+    main_net.configure(verbose=True)
 
-main_net.render(sys.argv[1], verbose=True)
+    for n in nodes[1:]:
+        n.add_options(environment={'KADEMLIA_ARGS': nodes[0].get_ip()})
+
+    main_net.render(args.lab_path, verbose=True)
+
+
+if __name__ == "__main__":
+    main()
