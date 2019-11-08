@@ -166,13 +166,13 @@ async def tcget():
 
 @net_control_bp.route('/tcset', methods=['POST', ])
 async def tcset():
+    data = await request.json
 
-    c_id = request.args.get('id')
+    c_id = request.args.get('id')1
     if c_id is None:
-        if request.json is None or 'id' not in request.json:
+        if data is None or 'id' not in data:
             return abort(400)
-        c_id = request.json.get('id')
-        data = request.json
+        c_id = data.get('id')
     else:
         data = await request.form
 
@@ -298,10 +298,11 @@ async def tcset():
 @net_control_bp.route('/tcdel', methods=['POST', ])
 async def tcdel():
 
-    if request.json is None or 'id' not in request.json:
+    data = await request.json
+    if data is None or 'id' not in data:
         return abort(400)
 
-    c_id = request.json.get('id')
+    c_id = data.get('id')
 
     dc = get_docker_client(c_id)
     try:
