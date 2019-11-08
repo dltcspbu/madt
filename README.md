@@ -41,9 +41,9 @@ Russian docs: http://srv02.dltc.spbu.ru:8276/
 
 ### Start sequence:
 ```bash
-    docker run -d --privileged -p 8980:80 -p 8922:22 
-        -e SSH_PWD=demo 
-        -e SSH_PWD=dltc 
+    docker run -d --privileged -p 8980:80 -p 8922:22 \
+        -e SSH_PWD=demo \
+        -e SSH_PWD=dltc \
         -e MADT_RUNTIME=docker madt
 ```
 
