@@ -168,7 +168,7 @@ async def tcget():
 async def tcset():
     data = await request.json
 
-    c_id = request.args.get('id')1
+    c_id = request.args.get('id')
     if c_id is None:
         if data is None or 'id' not in data:
             return abort(400)
