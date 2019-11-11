@@ -49,7 +49,11 @@ Cubic nodes of the graph represent routers and round ones - all the other nodes 
 
 User have to define the meaning of status codes himself and set the new value of this code with `send()` function. 
 
-Grey nodes are inactive. Blue nodes are that ones which were active earlier.
+Gray nodes are inactive. Blue nodes are that ones which were active earlier.
+
+## How to test your application
+
+
 
 ## Docs
 
