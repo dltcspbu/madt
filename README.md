@@ -34,7 +34,7 @@ Basic example with simple server-client interaction is defined in [tutorial/basi
 MADT provides a monitoring system that allows you to send messages from the model nodes and display them in real-time in the web interface.
 To get the monitoring page, go to container page and then push "open graph" button. 
 
-<img  src="docs/_images/lab_page.png" width="512">
+<img src="docs/_static/lab_page.png" width="360">
 
 You can check the state of nodes which is shown via color schema and logs in lower logger window.
 
