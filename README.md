@@ -27,10 +27,30 @@ We use madt_lib Python API to configure a model. It provides four classes for de
 * madt_lib.Overlay used to configure dynamic routing in the network. This is necessary for transferring data between computers from different subnets. 
 * madt_lib.Network represents a wide or local area network. Each node, subnet or overlay of a network should be created only using its methods. A laboratory can have only one global network that can be used to create multiple local ones. 
 
+Basic example with simple server-client interaction is defined in [tutorial/basic](https://github.com/dltcspbu/madt/blob/master/tutorials/basic/lab.py) folder.
+
+## How to check the model
+
+MADT provides a monitoring system that allows you to send messages from the model nodes and display them in real-time in the web interface.
+You can check the state of nodes which is shown via color schema and logs in lower logger window.
+
+<img src="docs/_static/monitoring.png" width="512">
+
+Cubic nodes of the graph represent routers and round ones - all the other nodes of the model. Color of node corresponds to its status and it can be one of the following:
+
+* 0 - green 
+* 1 - yellow
+* 2 - red
+* 3 - purple 
+
+User have to define the meaning of status codes himself and set the value of this code with `send()` function. 
+
+Grey nodes are inactive. Blue nodes are that ones which were active earlier.
+
 ## Docs
 
-English docs: http://srv02.dltc.spbu.ru:8275/
-Russian docs: http://srv02.dltc.spbu.ru:8276/
+English docs: http://madt.io/docs/
+Russian docs: http://madt.io/rudocs/
 
 ## Docker runtime
 ### Build sequence:
