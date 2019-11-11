@@ -32,6 +32,10 @@ Basic example with simple server-client interaction is defined in [tutorial/basi
 ## How to check the model
 
 MADT provides a monitoring system that allows you to send messages from the model nodes and display them in real-time in the web interface.
+To get the monitoring page, go to container page and then push "open graph" button. 
+
+<img  src="docs/_images/lab_page.png" width="512">
+
 You can check the state of nodes which is shown via color schema and logs in lower logger window.
 
 <img src="docs/_static/monitoring.png" width="512">
@@ -43,7 +47,7 @@ Cubic nodes of the graph represent routers and round ones - all the other nodes 
 * 2 - red
 * 3 - purple 
 
-User have to define the meaning of status codes himself and set the value of this code with `send()` function. 
+User have to define the meaning of status codes himself and set the new value of this code with `send()` function. 
 
 Grey nodes are inactive. Blue nodes are that ones which were active earlier.
 
