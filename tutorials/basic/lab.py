@@ -11,4 +11,4 @@ kt.configure(verbose=True)
 # pass server IP to the client
 client.add_options(environment={'SERVER': server.get_ip()})
 # save lab
-kt.render('/home/demo/labs/basic_tutorial', verbose=True)
+kt.render('../../labs/basic_tutorial', verbose=True)
