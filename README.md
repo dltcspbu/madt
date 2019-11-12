@@ -53,11 +53,12 @@ Gray nodes are inactive. Blue nodes are that ones which were active earlier.
 
 ## How to test your application
 
-
+Caution! Work in progress!
 
 ## Docs
 
 English docs: http://madt.io/docs/
+
 Russian docs: http://madt.io/rudocs/
 
 ## Docker runtime
