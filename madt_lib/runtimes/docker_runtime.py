@@ -25,7 +25,7 @@ def start_lab(lab_path, prefix, image_prefix='', timeout=3*60, poll_interval=10,
     # socket management
     try:
         # in-container case
-        socket_dir = os.environ['LABS_SOCKETS_DIR']
+        socket_dir = os.environ['MADT_LABS_SOCKETS_DIR']
     except KeyError:
         socket_dir = os.path.abspath('./sockets/')
     socket_dir = os.path.join(socket_dir, lab_name)
