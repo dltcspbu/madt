@@ -16,4 +16,4 @@ kt.create_overlay(Overlay.RIP, 'RIP', routers)
 kt.configure(verbose=True)
 for client in clients:
     client.add_options(environment={'SERVER': server.get_ip()})
-kt.render('/home/demo/labs/dynamic_routing', verbose=True)
+kt.render('../../labs/dynamic_routing', verbose=True)
