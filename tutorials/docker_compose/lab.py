@@ -23,4 +23,4 @@ kt.configure(verbose=True)
 for client in clients:
     client.add_options(extra_hosts={'whoami.local': server.get_ip()})
 # save lab
-kt.render('/home/demo/labs/compose', verbose=True)
+kt.render('../../labs/compose', verbose=True)

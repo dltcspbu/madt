@@ -12,4 +12,4 @@ kt.configure(verbose=True)
 for n in nodes[1:]: # pass initial connection arguments to kademlia
     n.add_options(environment={'KADEMLIA_ARGS': nodes[0].get_ip()})
 # save lab
-kt.render('/home/demo/labs/kademlia', verbose=True)
+kt.render('../../labs/kademlia', verbose=True)
