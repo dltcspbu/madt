@@ -35,7 +35,7 @@ RUN apk add openssh sudo nano && \
 # tc bugfix to allow delay distribution
 RUN ln -s /usr/lib/tc /lib/tc && \
 	ln -s /images /home/demo/images
-ENV LABS_SOCKETS_DIR=/sockets
+ENV MADT_LABS_SOCKETS_DIR=/sockets
 # ENV LABS_DIR=/app/labs
 
 RUN mkdir -p ~/.ssh && \

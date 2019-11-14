@@ -61,18 +61,17 @@ English docs: http://madt.io/docs/
 
 Russian docs: http://madt.io/rudocs/
 
+
 ## Docker runtime
 ### Build sequence:
 #### Server:
 
-1. `docker build -t madt/kahypar images/kahypar`
-2. `docker build -t madt .`
+   `docker build -t madt .`
 
 ### Start sequence:
 ```bash
-    docker run -d --privileged -p 8980:80 -p 8922:22 
-        -e SSH_PWD=demo 
-        -e SSH_PWD=dltc 
+    docker run -d --privileged -p 8980:80 -p 8922:22 \
+        -e SSH_PWD=demo \
         -e MADT_RUNTIME=docker madt
 ```
 

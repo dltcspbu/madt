@@ -1,24 +1,29 @@
 import sys
-sys.path.append('..')
-
+from argparse import ArgumentParser
 from madt_lib.network import Network
 
-if len(sys.argv) != 2:
-    print('Usage python ____ [ lab_path ]')
-    sys.exit(1)
+sys.path.append('..')
 
 
-main_net = Network('15.0.0.0/8')
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("lab_path", type=str, help='path to the lab directory')
+    args = parser.parse_args()
 
-nodes = main_net.generate_nodes('n', 3)
-main_net.create_subnet('net', nodes)
+    net = Network('15.0.0.0/8')
 
-local_net = main_net.create_local_network(nodes[0])
+    nodes = net.generate_nodes('n', 3)
+    net.create_subnet('net', nodes)
 
-ln = local_net.create_node('l_n1')
-local_net.create_subnet('LAN', (ln, nodes[0]))
+    local_net = net.create_local_network(nodes[0])
 
-main_net.configure(verbose=True)
+    ln = local_net.create_node('l_n1')
+    local_net.create_subnet('LAN', (ln, nodes[0]))
+
+    net.configure(verbose=True)
+
+    net.render(args.lab_path, verbose=True)
 
 
-main_net.render(sys.argv[1], verbose=True)
+if __name__ == "__main__":
+    main()
