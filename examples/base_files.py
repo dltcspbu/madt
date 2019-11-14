@@ -1,23 +1,30 @@
 import sys
-sys.path.append('..')
-
+from argparse import ArgumentParser
 from madt_lib.network import Network, Overlay
 
-if len(sys.argv) != 2:
-    print('Usage python ____ [ lab_path ]')
-    sys.exit(1)
+sys.path.append('..')
 
-kt = Network('15.0.0.0/8')
 
-routers = kt.generate_nodes('r', 3)
-kt.create_subnet('core', routers)
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("lab_path", type=str, help='path to the lab directory')
+    args = parser.parse_args()
 
-for idx, router in enumerate(routers):
-    n = kt.create_node('n'+str(idx+1))
-    kt.create_subnet('net'+str(idx+1), (router, n))
+    net = Network('15.0.0.0/8')
 
-    n.add_file('/me.txt', 'IM NODE #' + str(idx))
+    routers = net.generate_nodes('r', 3)
+    net.create_subnet('core', routers)
 
-kt.create_overlay(Overlay.RIP, 'RIP', routers)
-kt.render(sys.argv[1], verbose=True)
+    for idx, router in enumerate(routers):
+        n = net.create_node('n' + str(idx + 1))
+        net.create_subnet('net' + str(idx + 1), (router, n))
+
+        n.add_file('/me.txt', 'IM NODE #' + str(idx))
+
+    net.create_overlay(Overlay.RIP, 'RIP', routers)
+    net.render(args.lab_path, verbose=True)
+
+
+if __name__ == "__main__":
+    main()
 
