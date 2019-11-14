@@ -39,11 +39,11 @@ endif
 	
 default:
 	@echo "Installation of $(PKG_NAME) started"
-	@echo "Now run:"
-	@echo "		sudo make install"
-	@echo 
-
-install: 
+	@echo "Check the requrements. Uninstalled python packages will be installed."
+	@echo
+	@pip3 install -q -r requirements.txt	
+	@echo
+	@sh images/build.sh
 	@echo "export HOSTNAME=$(HOSTNAME)" >> ~/.bashrc
 	@echo "export MADT_LABS_DIR=$(MADT_LABS_DIR)" >> ~/.bashrc
 	@echo "export MADT_LABS_SOCKETS_DIR=$(MADT_LABS_SOCKETS_DIR)" >> ~/.bashrc
