@@ -41,11 +41,24 @@ default:
 	@echo "Installation of $(PKG_NAME) started"
 	@echo "Check the requrements. Uninstalled python packages will be installed."
 	@echo
-	@pip3 install -q -r requirements.txt	
+	@pip3 install -q -r requirements.txt
+	@if [ -d "tmpshards" ]; then rm -rf tmpshards; fi
+	@git clone https://github.com/DesignRevision/shards-dashboard.git tmpshards
+	@cp -r tmpshards/* madt_ui/static/
 	@echo
 	@sh images/build.sh
+	@cp -r $(MADT_DIR)/madt_lib $(INSTALL_DIR)
+	@echo "MADT dir is $(MADT_DIR)"
+	@if [ ! -d "$(MADT_LABS_DIR)" ]; then mkdir $(MADT_LABS_DIR); fi
+	@if [ ! -d "$(MADT_LABS_SOCKETS_DIR)" ]; then mkdir $(MADT_LABS_SOCKETS_DIR); fi
+
+install:
 	@echo "export HOSTNAME=$(HOSTNAME)" >> ~/.bashrc
 	@echo "export MADT_LABS_DIR=$(MADT_LABS_DIR)" >> ~/.bashrc
 	@echo "export MADT_LABS_SOCKETS_DIR=$(MADT_LABS_SOCKETS_DIR)" >> ~/.bashrc
-	@cp -r $(MADT_DIR)/madt_lib $(INSTALL_DIR)
 	@echo "Successfully installed!"
+
+clean:
+	@if [ -d "madt_ui/static/scripts/" ]; then rm -rf madt_ui/static/scripts/; fi 
+	@if [ -d "madt_ui/static/styles/" ]; then  rm -rf madt_ui/static/styles/; fi 
+	@if [ -d "madt_ui/madt.sqlite" ]; then rm  madt_ui/madt.sqlite; fi 
