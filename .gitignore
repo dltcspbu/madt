@@ -3,5 +3,6 @@ __pycache__/
 .idea/
 venv/
 labs/
+sockets/
 ctop
 docs/_build
