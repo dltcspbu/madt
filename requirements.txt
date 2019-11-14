@@ -1,0 +1,7 @@
+tcconfig 
+flask_login 
+quart 
+pyzmq 
+peewee 
+docker
+cryptography
