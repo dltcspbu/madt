@@ -4,11 +4,13 @@
 # | \  / |  /_|| || \\ |_____|  
 # |_|\/|_| /_/|| ||_//   |_|
 #
-# \TODO Write copyright
+# Check the license: https://github.com/dltcspbu/madt/blob/master/LICENSE.md
 #
 # Author: DLTC
 # Last change: November 13, 2019 
+# email: dltc@spbu.ru
 # URL: madt.io
+#
 ###############################################################################
 
 PKG_NAME:=madt
@@ -18,7 +20,8 @@ PKG_RELEASE:=1
 MADT_DIR:=$(realpath $(dir $(firstword $(MAKEFILE_LIST))))
 
 # 
-# Define dirs for lab and sockets yourself
+# Define dirs for lab and sockets yourself.
+# By default we place it in madt folder.
 #
 MADT_LABS_DIR:=$(MADT_DIR)/labs
 MADT_LABS_SOCKETS_DIR:=$(MADT_DIR)/sockets
@@ -34,8 +37,6 @@ else
 	INSTALL_DIR+=/usr/lib/python3/dist-packages
 endif
 	
-# \TODO  check debian
-
 default:
 	@echo "Installation of $(PKG_NAME) started"
 	@echo "Now run:"
