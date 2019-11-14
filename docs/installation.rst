@@ -42,7 +42,7 @@ See `here <http://docs.docker.com/install/linux/linux-postinstall/>`_ for more d
 Now that all the MADT dependencies are installed, you can move on to the system itself.
 First of all, it’s necessary to download MADT sources: ::
 
-    git clone https://gitab.dltc.spbu.ru/DM/madt.git
+    git clone https://github.com/dltcspbu/madt.git
 
 Second step is to build helper docker images:
 
