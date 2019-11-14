@@ -18,4 +18,4 @@ kt.configure(verbose=True)
 for client in clients:
     client.add_options(environment={'SERVER': server.get_ip()})
 # save lab
-kt.render('/home/demo/labs/monitoring', verbose=True)
+kt.render('../../labs/monitoring', verbose=True)

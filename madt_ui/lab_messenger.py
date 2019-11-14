@@ -36,7 +36,7 @@ class Messenger:
         asyncio.ensure_future(self.listen())
 
     def socket_url(self):
-        return 'ipc://'+os.path.join('/sockets', self.lab_name, 'lab.sock')
+        return 'ipc://'+os.path.join(os.environ['MADT_LABS_SOCKETS_DIR'], self.lab_name, 'lab.sock')
 
     async def listen(self):
         while True:
