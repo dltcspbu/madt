@@ -1,0 +1,18 @@
+FROM nginx:alpine
+
+RUN apk add -U python3 gcc musl-dev linux-headers python3-dev libffi-dev make
+
+RUN apk add openssl-dev
+
+RUN apk add zeromq-dev && \
+    pip3 install docker pyzmq cryptography sphinx \
+                 Pallets-Sphinx-Themes sphinx-autobuild
+
+ADD . /madt
+
+RUN ls /madt/
+
+CMD if [ -z "$LIVEHTML" ]; then \
+        sphinx-build -b html /madt/docs_ru /usr/share/nginx/html && \
+        nginx -g "daemon off;"; \
+    else cd /madt/docs_ru && make livehtml; fi
