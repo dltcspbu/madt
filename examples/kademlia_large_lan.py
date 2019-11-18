@@ -46,16 +46,16 @@ def main():
     local_net.create_subnet('LAN0', (*local_routers, gateway))
 
     for idx, r in enumerate(local_routers):
-        n = local_net.create_node('lan_node' + str(idx + 1), image='kademlia')
-        local_net.create_subnet('LAN' + str(idx + 1), (n, r))
-        nodes.append(n)
+        node = local_net.create_node('lan_node' + str(idx + 1), image='kademlia')
+        local_net.create_subnet('LAN' + str(idx + 1), (node, r))
+        nodes.append(node)
 
     local_net.create_overlay(Overlay.RIP, 'RIP_1', local_routers)
 
     main_net.configure(verbose=True)
 
-    for n in nodes[1:]:
-        n.add_options(environment={'KADEMLIA_ARGS': nodes[0].get_ip()})
+    for node in nodes[1:]:
+        node.add_options(environment={'KADEMLIA_ARGS': nodes[0].get_ip()})
 
     main_net.render(args.lab_path, verbose=True)
 

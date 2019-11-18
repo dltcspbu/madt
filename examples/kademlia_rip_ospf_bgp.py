@@ -41,8 +41,8 @@ def main():
 
     net.configure(verbose=True)
 
-    for n in nodes[1:]:
-        n.add_options(environment={'KADEMLIA_ARGS': nodes[0].get_ip()})
+    for node in nodes[1:]:
+        node.add_options(environment={'KADEMLIA_ARGS': nodes[0].get_ip()})
 
     net.render(args.lab_path, verbose=True)
 
