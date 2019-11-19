@@ -53,9 +53,10 @@ default:
 	@if [ ! -d "$(MADT_LABS_SOCKETS_DIR)" ]; then mkdir $(MADT_LABS_SOCKETS_DIR); fi
 
 install:
-	@echo "export HOSTNAME=$(HOSTNAME)" >> ~/.bashrc
-	@echo "export MADT_LABS_DIR=$(MADT_LABS_DIR)" >> ~/.bashrc
-	@echo "export MADT_LABS_SOCKETS_DIR=$(MADT_LABS_SOCKETS_DIR)" >> ~/.bashrc
+	@sed -i 's/export HOSTNAME=.*/export HOSTNAME=$(HOSTNAME)/g' ~/.bashrc
+	@echo
+	@sed -i -e 's/export MADT_LABS_DIR=.*/export MADT_LABS_DIR=$(MADT_LABS_DIR)/g' ~/.bashrc
+	#@sed -i 's/export MADT_LABS_SOCKETS_DIR=.*/export MADT_LABS_SOCKETS_DIR=$(MADT_LABS_SOCKETS_DIR)/g' ~/.bashrc
 	@echo "Successfully installed!"
 
 clean:
