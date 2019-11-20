@@ -7,12 +7,12 @@ import os
 from quart import Quart, render_template, session, request
 from flask_login import login_required
 
-from .net_control import net_control_bp
-from .lab_visualization import lab_visual_bp
-from .lab_control import lab_control_bp
-from .cluster_control import cluster_control_bp
-from .login import login_bp, login_manager
-from .config import labs_dir
+from madt_ui.net_control import net_control_bp
+from madt_ui.lab_visualization import lab_visual_bp
+from madt_ui.lab_control import lab_control_bp
+from madt_ui.cluster_control import cluster_control_bp
+from madt_ui.login import login_bp, login_manager
+from madt_ui.config import labs_dir
 
 # app = Flask(__name__)
 app = Quart(__name__)
