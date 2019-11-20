@@ -3,17 +3,16 @@ import quart.flask_patch
 import sys
 import os
 
-from net_control import net_control_bp
-from lab_visualization import lab_visual_bp
-from lab_control import lab_control_bp
-from cluster_control import cluster_control_bp
-from login import login_bp, login_manager
-
-from config import labs_dir
-
 # from flask import Flask, render_template, session, request
 from quart import Quart, render_template, session, request
 from flask_login import login_required
+
+from .net_control import net_control_bp
+from .lab_visualization import lab_visual_bp
+from .lab_control import lab_control_bp
+from .cluster_control import cluster_control_bp
+from .login import login_bp, login_manager
+from .config import labs_dir
 
 # app = Flask(__name__)
 app = Quart(__name__)

@@ -6,7 +6,7 @@ import zmq
 import zmq.asyncio
 from zmq.utils import jsonapi
 
-from config import lab_path, prefix
+from .config import lab_path, prefix
 
 try:
     from werkzeug.contrib.cache import UWSGICache as cache
@@ -36,7 +36,7 @@ class Messenger:
         asyncio.ensure_future(self.listen())
 
     def socket_url(self):
-        return 'ipc://'+os.path.join(os.environ['MADT_LABS_SOCKETS_DIR'], self.lab_name, 'lab.sock')
+        return 'ipc://'+os.path.join('/sockets', self.lab_name, 'lab.sock')
 
     async def listen(self):
         while True:
