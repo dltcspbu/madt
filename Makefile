@@ -26,6 +26,8 @@ MADT_DIR:=$(realpath $(dir $(firstword $(MAKEFILE_LIST))))
 MADT_LABS_DIR:=$(MADT_DIR)/labs
 MADT_LABS_SOCKETS_DIR:=$(MADT_DIR)/sockets
 
+MLD:=$(MADT_LABS_DIR)
+
 HOSTNAME:=localhost 
 
 YUMCODE:=$(shell $(yum))
@@ -53,10 +55,9 @@ default:
 	@if [ ! -d "$(MADT_LABS_SOCKETS_DIR)" ]; then mkdir $(MADT_LABS_SOCKETS_DIR); fi
 
 install:
-	@sed -i 's/export HOSTNAME=.*/export HOSTNAME=$(HOSTNAME)/g' ~/.bashrc
-	@echo
-	@sed -i -e 's/export MADT_LABS_DIR=.*/export MADT_LABS_DIR=$(MADT_LABS_DIR)/g' ~/.bashrc
-	#@sed -i 's/export MADT_LABS_SOCKETS_DIR=.*/export MADT_LABS_SOCKETS_DIR=$(MADT_LABS_SOCKETS_DIR)/g' ~/.bashrc
+	@if grep -q 'export MADT_LABS_DIR'  ~/.bashrc ; then sed -i 's@export MADT_LABS_DIR=.*@export MADT_LABS_DIR=$(MADT_LABS_DIR)@g'  ~/.bashrc; else echo "export MADT_LABS_DIR=$(MADT_LABS_DIR)" >> ~/.bashrc; fi
+	@if grep -q 'export HOSTNAME' ~/.bashrc; then sed -i 's@export HOSTNAME=.*@export HOSTNAME=$(HOSTNAME)@g' ~/.bashrc; else echo "export HOSTNAME=$(HOSTNAME)" >> ~/.bashrc; fi
+	@if grep -q 'export MADT_LABS_SOCKETS_DIR'  ~/.bashrc; then sed -i 's@export MADT_LABS_SOCKETS_DIR=.*@export MADT_LABS_SOCKETS_DIR=$(MADT_LABS_SOCKETS_DIR)@g' ~/.bashrc; else echo "export MADT_LABS_SOCKETS_DIR=$(MADT_LABS_SOCKETS_DIR)" >> ~/.bashrc; fi
 	@echo "Successfully installed!"
 
 clean:
