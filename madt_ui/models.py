@@ -1,6 +1,6 @@
 from peewee import *
 import docker
-from config import prefix
+from .config import prefix
 
 db = SqliteDatabase('madt.sqlite', pragmas={'foreign_keys': 1})
 
