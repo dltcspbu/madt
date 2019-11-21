@@ -1,5 +1,7 @@
 # MADT - a distributed application modeling system
 
+Visit http://madt.io to learn more!
+
 Main features of MADT:
 
 * Realistic simulation of large scale IP networks,
