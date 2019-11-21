@@ -1,8 +1,14 @@
 from peewee import *
+import os
 import docker
-from .config import prefix
+try:
+   from .config import prefix
+except ModuleNotFoundError:
+   from config import prefix
 
-db = SqliteDatabase('madt.sqlite', pragmas={'foreign_keys': 1})
+# raise Exception(os.path.join(os.path.dirname(os.path.abspath(__file__))))
+# print('\n\n\n\t\t', os.path.dirname(os.path.abspath(__file__)) )
+db = SqliteDatabase(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'madt.sqlite'), pragmas={'foreign_keys': 1})
 
 
 class BaseModel(Model):
