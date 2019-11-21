@@ -26,7 +26,7 @@ def main():
     for client in clients:
         client.add_options(extra_hosts={'whoami.local': server.get_ip()})
     # save lab
-    net.render('/home/demo/labs/compose', verbose=True)
+    net.render('../../labs/compose', verbose=True)
 
 
 if __name__ == "__main__":
