@@ -2,7 +2,7 @@ from quart import Blueprint, request, jsonify, abort
 import peewee
 from docker.errors import APIError
 
-from models import Lab, Node, Host
+from .models import Lab, Node, Host
 
 cluster_control_bp = Blueprint('cluster_control', __name__)
 
