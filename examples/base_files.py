@@ -16,10 +16,10 @@ def main():
     net.create_subnet('core', routers)
 
     for idx, router in enumerate(routers):
-        n = net.create_node('n' + str(idx + 1))
-        net.create_subnet('net' + str(idx + 1), (router, n))
+        node = net.create_node('n' + str(idx + 1))
+        net.create_subnet('net' + str(idx + 1), (router, node))
 
-        n.add_file('/me.txt', 'IM NODE #' + str(idx))
+        node.add_file('/me.txt', 'IM NODE #' + str(idx))
 
     net.create_overlay(Overlay.RIP, 'RIP', routers)
     net.render(args.lab_path, verbose=True)
