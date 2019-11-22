@@ -1,7 +1,7 @@
 import subprocess
 import json
 import peewee
-from models import Node
+from .models import Node
 from madt_lib.runtimes.cluster_runtime import ssh_exec, tcset_api
 
 

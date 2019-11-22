@@ -1,6 +1,5 @@
 from madt_lib.network import Network
 
-
 def main():
     madt = Network('15.0.0.0/8')
 

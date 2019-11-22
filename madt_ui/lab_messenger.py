@@ -6,7 +6,7 @@ import zmq
 import zmq.asyncio
 from zmq.utils import jsonapi
 
-from config import lab_path, prefix
+from .config import lab_path, prefix
 
 try:
     from werkzeug.contrib.cache import UWSGICache as cache

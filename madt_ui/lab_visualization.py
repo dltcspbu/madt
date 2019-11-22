@@ -2,11 +2,11 @@ from quart import Blueprint, render_template, request, jsonify
 import os
 import json
 
-from lab2graph import from_config
-from config import lab_path, prefix
+from .lab2graph import from_config
+from .config import lab_path, prefix
 
-from lab_messenger import Messenger
-from net_control import routers_cache
+from .lab_messenger import Messenger
+from .net_control import routers_cache
 
 lab_visual_bp = Blueprint('lab_visual', __name__)
 
