@@ -100,7 +100,7 @@ def to_int(data, int_keys):
                 ret[k] = int(data[k])
         else:
             ret[k] = data[k]
-
+    
     return ret
 
 
@@ -239,7 +239,9 @@ async def tcset():
 
     print('[ c_id ]', c_id, sep='\n', end='\n')
 
-    if all([data[k] == 0 for k in ['loss', 'corrupt', 'reorder', 'duplicate', 'delay']]):
+    print('data: \n', data, '\n')
+
+    if all([data[k] == 0 for k in ['loss', 'corrupt', 'reorder', 'duplicate', 'delay'] if k in data]):
         cmd = 'tcdel --all --docker ' + c_id
     else:
         cmd = 'tcset --overwrite --docker {}  {}'.format(c_id, ' '.join(tcset_options))
