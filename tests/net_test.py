@@ -26,7 +26,6 @@ class TestClass:
     def setup_method(self):
         self.passwd = 'demo'
         os.environ["SSH_PWD"] = self.passwd
-        self.already_set = []
         self.corrupt = 10
         self.delay = 20
         self.delay_distro = 1
@@ -53,29 +52,30 @@ class TestClass:
         response = await self.test_client.post('/login',form={'username': 'demo', 'password': self.passwd})
         assert response.status_code == 302
 
-    async def tcset_param(self, param_name):
+    async def tcset_param(self, param_names):
         status = await self.login()
-        response = await self.test_client.post('/tcset',
+
+        for name in param_names:
+            response = await self.test_client.post('/tcset',
                                           query_string={'id': self.container.short_id},
-                                          form = {param_name: self.json_ans[param_name]})
-        assert response.status_code == 200
+                                          form = {name: self.json_ans[name]})
+            assert response.status_code == 200
         
         response = await self.test_client.get('/tcget', query_string={'id': self.container.short_id})
         assert response.status_code == 200
 
         rj_answer = (await response.get_json())
-        self.already_set.append(param_name)
 
-        print('\n\n sent: ', self.json_ans)
         print('\n\n received: ', rj_answer)
-        print('\n\n already_set: ', self.already_set)
+        print('\n\n tobe_set: ', param_names)
 
-        assert all([rj_answer[k] == self.json_ans[k] for k in self.already_set])
+        assert all([rj_answer[k] == self.json_ans[k] for k in param_names])
 
     @pytest.mark.asyncio
     async def test_login(self):
         status = await self.login()
 
+    # Test multople parameter set by the same request
     @pytest.mark.asyncio
     async def test_tcset(self):
 
@@ -95,26 +95,25 @@ class TestClass:
 
     @pytest.mark.asyncio
     async def test_tcsee_corrupt(self):
-        status = await self.tcset_param(param_name='corrupt')
+        status = await self.tcset_param(param_names=['corrupt'])
 
     @pytest.mark.asyncio
     async def test_tcsee_delay_n_dublicate(self):
-        status = await self.tcset_param(param_name='delay')
-        status = await self.tcset_param(param_name='duplicate')
+        status = await self.tcset_param(param_name=['delay', 'duplicate'])
 
     @pytest.mark.asyncio
     async def test_tcsee_loss(self):
-        status = await self.tcset_param(param_name='loss')
+        status = await self.tcset_param(param_names=['loss'])
 
     @pytest.mark.asyncio
     async def test_tcsee_delay(self):
-        status = await self.tcset_param(param_name='delay')
+        status = await self.tcset_param(param_names=['delay'])
 
     @pytest.mark.asyncio
     async def test_tcsee_dublicate(self):
-        status = await self.tcset_param(param_name='duplicate')
+        status = await self.tcset_param(param_names=['duplicate'])
 
     @pytest.mark.asyncio
     async def test_tcsee_rate(self):
-        status = await self.tcset_param(param_name='rate')
+        status = await self.tcset_param(param_names=['rate'])
 
