@@ -3,8 +3,8 @@ from argparse import ArgumentParser
 from madt_lib.network import Network, Overlay
 sys.path.append('..')
 
-iterations = 1
-children = 30
+iterations = 2
+children = 3
 central_nodes = []
 subnets = 1
 
