@@ -11,6 +11,7 @@ sudo docker run --rm -it \
 	-p 8980:80 -p 8922:22 \
 	-v ~/dltc/madt/labs:/home/demo/labs \
 	-v ~/dltc/madt/madt_ui:/app \
+	-v ~/dltc/madt:/madt \
 	-e SSH_PWD=demo -e MADT_RUNTIME=docker \
   	--entrypoint ash madt
 ```
