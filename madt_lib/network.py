@@ -71,6 +71,9 @@ class Network():
             Created node.
         """
 
+        if type(name) != str:
+            raise TypeError('Node name must be str!')
+
         if name in [n.name for n in self.nodes]:
             raise Exception('Node name must be unique')
 
@@ -96,6 +99,15 @@ class Network():
         Returns:
             A list of created nodes.
         """
+
+        if type(prefix) != str:
+            raise TypeError('Prefix must be str!')
+
+        if type(num) != int:
+            raise TypeError('Num must be integer!')
+
+        if num <= 0:
+            raise ValueError('Num must be > 0!')
 
         return [self.create_node(prefix + str(i + 1), **kwargs) for i in range(num)]
 
