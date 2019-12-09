@@ -57,6 +57,19 @@ class TestNetworkNodeManagement(unittest.TestCase):
 		with self.assertRaises(ValueError):
 			self.network.generate_nodes(prefix='test2', num=-10)
 
+	def test_create_subnet(self):
+		node1 = self.network.create_node("node1_for_subnet")
+		node2 = self.network.create_node("node2_for_subnet")
+		subnet = self.network.create_subnet("test_subnet", [node1, node2])
+
+		self.assertTrue(subnet in self.network.subnets)
+
+		with self.assertRaises(TypeError):
+			self.network.create_subnet(0, [node1, node2])
+
+		with self.assertRaises(Exception):
+			self.network.create_subnet("test_subnet", [node1, node2])
+
 
 if __name__ == '__main__':
 	unittest.main()
