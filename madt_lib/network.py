@@ -122,6 +122,9 @@ class Network():
             Created subnet.
         """
 
+        if type(name) != str:
+            raise TypeError("Subnet name must be str!")
+
         if name in [s.name for s in self.subnets]:
             raise Exception('Subnets name must be unique!')
 
