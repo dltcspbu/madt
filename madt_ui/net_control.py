@@ -103,6 +103,9 @@ def to_int(data, int_keys):
     
     return ret
 
+def str2bool(v):
+    return v.lower() in ("yes", "true", "t", "1")
+
 
 # TODO: more general way to decide if container is a router
 def is_router(container):
@@ -166,6 +169,7 @@ async def tcget():
 
 @net_control_bp.route('/tcset', methods=['POST', ])
 async def tcset():
+
     data = await request.json
 
     c_id = request.args.get('id')
@@ -184,6 +188,9 @@ async def tcset():
     except TypeError:
         return "Error: invalid request body", 400
 
+    is_upadable = str2bool(data['update']) if 'update' in data else False
+
+    old_data = get_container_rules(c_id)
     # print(data)
 
     tcset_options = []
@@ -195,16 +202,24 @@ async def tcset():
             rate_unit = data['rate_unit']
         else:
             rate_unit = 'Mbps'
+        rate = data['rate']
+        tcset_options.append('--rate ' + str(rate) + rate_unit)
+    else:
+        if is_upadable and 'rate' in old_data:
+            tcset_options.append('--rate ' + str(old_data['rate']) + str(old_data['rate_unit']))
 
-        tcset_options.append('--rate ' + str(data['rate']) + rate_unit)
-
+    
     if 'delay' in data and check_delay(data) and data['delay'] > 0:
         delay_set = True
         if 'delay_unit' in data and data['delay_unit'] in ['usec', 'msec', 'sec', 'min']:
             delay_unit = data['delay_unit']
         else:
             delay_unit = 'msec'
-        tcset_options.append('--delay ' + str(data['delay']) + delay_unit)
+        tcset_options.append('--delay ' + str(data['delay']) + delay_unit)    
+    else:
+        if is_upadable:
+            tcset_options.append('--delay ' + str(old_data['delay']) + str(old_data['delay_unit']))
+    
 
     if 'delay-distro' in data and data['delay-distro'] > 0:
         
@@ -216,21 +231,37 @@ async def tcset():
         if not delay_set:
             return "Error: delay distribution can only be set with the delay", 400
         tcset_options.append('--delay-distro ' + str(data['delay-distro']) + delay_dist_unit)
+    else:
+        if is_upadable:
+            tcset_options.append('--delay-distro ' + str(old_data['delay-distro']) 
+                                + str(old_data['delay-distro_unit']))
 
     # settings without units (percentage)
     if 'loss' in data and 0 <= data['loss'] <= 100:  # | ||
         tcset_options.append('--loss ' + str(data['loss']) + '%')  # | |_
-
+    else:
+        if is_upadable:
+            tcset_options.append('--loss ' + str(old_data['loss']) + '%')  # | |_
+    
     if 'corrupt' in data and 0 <= data['corrupt'] <= 100:
         tcset_options.append('--corrupt ' + str(data['corrupt']) + '%')
+    else:
+        if is_upadable:
+            tcset_options.append('--corrupt ' + str(old_data['corrupt']) + '%')
 
     if 'reorder' in data and 0 <= data['reorder'] <= 100:
         if not delay_set and data['reorder'] > 0:
             return "Error: reordering can only be set with the delay", 400
         tcset_options.append('--reordering ' + str(data['reorder']) + '%')
+    else:
+        if is_upadable:
+            tcset_options.append('--reordering ' + str(old_data['reorder']) + '%')
 
     if 'duplicate' in data and 0 <= data['duplicate'] <= 100:
         tcset_options.append('--duplicate ' + str(data['duplicate']) + '%')
+    else:
+        if is_upadable:
+            tcset_options.append('--duplicate ' + str(old_data['duplicate']) + '%')
 
     if not len(tcset_options):
         return 'Error: no settings were given', 400
@@ -243,8 +274,9 @@ async def tcset():
 
     if all([data[k] == 0 for k in ['loss', 'corrupt', 'reorder', 'duplicate', 'delay'] if k in data]):
         cmd = 'tcdel --all --docker ' + c_id
+        #cmd = 'echo "WOOOOOOOOOOOOOOOOOOOOOho!"'
     else:
-        cmd = 'tcset --overwrite --docker {}  {}'.format(c_id, ' '.join(tcset_options))
+        cmd = 'tcset  --overwrite --docker {} {}'.format(c_id, ' '.join(tcset_options))
 
     print('[ CMD ]', cmd, sep='\n', end='\n')
 
