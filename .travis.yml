@@ -5,6 +5,8 @@ addons:
       - "python3-pip"
 python:
   - "3.6"
+before_install:
+  - chown -R $USER:$USER /usr/lib/python3/dist_packages
 install:
   - make && make install
 script:
