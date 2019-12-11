@@ -6,6 +6,7 @@ addons:
 python:
   - "3.6"
 install:
+  - pip3 install --upgrade setuptools
   - sudo make && make install
 script:
   - python3 -m unittest discover -s unit_tests -p "test_*.py"
