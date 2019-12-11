@@ -38,12 +38,11 @@ else
 	INSTALL_DIR+=/usr/lib/python3/dist-packages
 endif
 
-ifeq ($(USER), "travis")
+ifeq ("$(USER)", "travis")
 	INSTALL_DIR=/home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
 endif
 
 default:
-	@echo "$(USER)"
 	@echo "Installation of $(PKG_NAME) started"
 	@echo "Check the requrements. Uninstalled python packages will be installed."
 	@echo
