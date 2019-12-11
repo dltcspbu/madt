@@ -5,8 +5,7 @@ addons:
       - "python3-pip"
 python:
   - "3.6"
-cache: pip3
 install:
-  - sudo make && sudo make install
+  - make && make install
 script:
   - python3 -m unittest discover -s unit_tests -p "test_*.py"
