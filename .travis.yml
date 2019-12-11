@@ -6,6 +6,6 @@ addons:
 python:
   - "3.6"
 install:
-  - make && make install
+  - sudo make && make install
 script:
   - python3 -m unittest discover -s unit_tests -p "test_*.py"
