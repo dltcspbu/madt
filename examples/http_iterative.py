@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from madt_lib.network import Network, Overlay
 sys.path.append('..')
 
-iterations = 2
+iterations = 3
 children = 3
 central_nodes = []
 subnets = 1
@@ -20,8 +20,8 @@ def main():
     net = Network('15.0.0.0/8')
 
     # Create initial outer nodes and a subnet
-    outer_nodes = [*net.generate_nodes('core_', children), ]
-    net.create_subnet('core', outer_nodes)
+    core = net.create_node('core', image='madt/nginx')
+    outer_nodes = [core, ]
 
     # Iteratively create other nodes
     for i in range(iterations):
@@ -40,16 +40,17 @@ def main():
         outer_nodes = new_outer_nodes
 
     # OSPF - Open Shortest Path First
+    central_nodes.remove(core)
     net.create_overlay(Overlay.OSPF, 'OSPF', central_nodes)
 
     # Setup the node docker image
     for node in outer_nodes:
-        node.image = 'kademlia'
+        node.image = 'madt/pyget'
 
     net.configure(verbose=True)
 
-    for node in outer_nodes[1:]:
-        node.add_options(environment={'KADEMLIA_ARGS': outer_nodes[0].get_ip()})
+    for node in outer_nodes:
+        node.add_options(environment={'SERVER': core.get_ip()})
 
     net.render(args.lab_path, verbose=True)
 

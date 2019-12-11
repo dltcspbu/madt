@@ -32,13 +32,16 @@ HOSTNAME:=localhost
 
 YUMCODE:=$(shell $(yum))
 
-INSTALL_DIR:= 
 ifeq ($(YUMCODE),1)
 	INSTALL_DIR+=/usr/lib/python3/site-packages
 else 
 	INSTALL_DIR+=/usr/lib/python3/dist-packages
 endif
-	
+
+ifeq ("$(USER)", "travis")
+	INSTALL_DIR=/home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
+endif
+
 default:
 	@echo "Installation of $(PKG_NAME) started"
 	@echo "Check the requrements. Uninstalled python packages will be installed."
@@ -49,13 +52,13 @@ default:
 	@cp -r tmpshards/* madt_ui/static/
 	@echo
 	@sh images/build.sh
-	@cp -r $(MADT_DIR)/madt_lib $(INSTALL_DIR)
-	@cp -r $(MADT_DIR)/madt_ui $(INSTALL_DIR)
-	@echo "MADT dir is $(MADT_DIR)"
 	@if [ ! -d "$(MADT_LABS_DIR)" ]; then mkdir $(MADT_LABS_DIR); fi
 	@if [ ! -d "$(MADT_LABS_SOCKETS_DIR)" ]; then mkdir $(MADT_LABS_SOCKETS_DIR); fi
 
 install:
+	@cp -r $(MADT_DIR)/madt_lib $(INSTALL_DIR)
+	@cp -r $(MADT_DIR)/madt_ui $(INSTALL_DIR)
+	@echo "MADT dir is $(MADT_DIR)"
 	@cd madt_ui && python3 models.py && cd ../
 	@if grep -q 'export MADT_LABS_DIR'  ~/.bashrc ; then sed -i 's@export MADT_LABS_DIR=.*@export MADT_LABS_DIR=$(MADT_LABS_DIR)@g'  ~/.bashrc; else echo "export MADT_LABS_DIR=$(MADT_LABS_DIR)" >> ~/.bashrc; fi
 	@if grep -q 'export HOSTNAME' ~/.bashrc; then sed -i 's@export HOSTNAME=.*@export HOSTNAME=$(HOSTNAME)@g' ~/.bashrc; else echo "export HOSTNAME=$(HOSTNAME)" >> ~/.bashrc; fi
