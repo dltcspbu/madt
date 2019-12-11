@@ -38,7 +38,9 @@ else
 	INSTALL_DIR+=/usr/lib/python3/dist-packages
 endif
 
-INSTALL_DIR=/home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
+ifeq ($USER, "travis")
+	INSTALL_DIR=/home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
+endif
 
 default:
 	@echo "Installation of $(PKG_NAME) started"
