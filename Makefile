@@ -43,6 +43,7 @@ ifeq ($(USER), "travis")
 endif
 
 default:
+	@echo "$(USER)"
 	@echo "Installation of $(PKG_NAME) started"
 	@echo "Check the requrements. Uninstalled python packages will be installed."
 	@echo
