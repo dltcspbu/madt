@@ -5,3 +5,5 @@ pyzmq
 peewee 
 docker
 cryptography
+coverage
+codecov
