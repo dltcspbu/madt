@@ -1,7 +1,11 @@
 language: python
+addons:
+  apt:
+    packages:
+      - "python3-pip"
 python:
   - "3.6"
-cache: pip
+cache: pip3
 install:
   - sudo make && sudo make install
 script:
