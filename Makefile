@@ -32,18 +32,14 @@ HOSTNAME:=localhost
 
 YUMCODE:=$(shell $(yum))
 
-CURRENT_USER:=$USER
-
 ifeq ($(YUMCODE),1)
 	INSTALL_DIR+=/usr/lib/python3/site-packages
 else 
 	INSTALL_DIR+=/usr/lib/python3/dist-packages
 endif
 
-ifeq ($(CURRENT_USER), travis)
-	INSTALL_DIR=/home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
-endif
-	
+INSTALL_DIR=/home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
+
 default:
 	@echo "Installation of $(PKG_NAME) started"
 	@echo "Check the requrements. Uninstalled python packages will be installed."
