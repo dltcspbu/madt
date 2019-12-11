@@ -5,6 +5,8 @@ addons:
       - "python3-pip"
 python:
   - "3.6"
+before_install:
+  - echo $USER
 install:
   - make && make install
 script:
