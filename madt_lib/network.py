@@ -150,6 +150,12 @@ class Network():
             Created overlay.
         """
 
+        if type(protocol) != str:
+            raise TypeError('Protocol must be str!')
+
+        if type(name) != str:
+            raise TypeError('Name must be str!')
+
         # return _add_overlay_fn[protocol](*args, **kwargs)
         if protocol == Overlay.RIP:
             new_overlay = RIP_Overlay(name, *args, **kwargs)
