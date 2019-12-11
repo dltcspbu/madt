@@ -12,4 +12,4 @@ install:
 script:
   - coverage run -m unittest discover -s unit_tests -p "test_*.py"
 after_success:
-  - codecov
+  - codecov -t 2d4c33cb-20bc-49ca-9082-e6d686f1cc32
