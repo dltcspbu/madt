@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/dltcspbu/madt.svg?branch=tests)](https://travis-ci.com/dltcspbu/madt)
-[![codecov](https://codecov.io/gh/dltcspbu/madt/branch/tests/graph/badge.svg)](https://codecov.io/gh/dltcspbu/madt)
+[![Build Status](https://travis-ci.com/dltcspbu/madt.svg?branch=master)](https://travis-ci.com/dltcspbu/madt)
+[![codecov](https://codecov.io/gh/dltcspbu/madt/branch/master/graph/badge.svg)](https://codecov.io/gh/dltcspbu/madt)
 
 # MADT - a distributed application modeling system
 
