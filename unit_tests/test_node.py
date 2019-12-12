@@ -27,6 +27,5 @@ class TestNodeSubnet(TestNode):
 		self.assertEqual('172.0.2.5', self.n.get_ip(subnet='test', as_str=True))
 
 
-
 if __name__ == '__main__':
 	unittest.main()
