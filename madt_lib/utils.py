@@ -6,6 +6,7 @@ import io
 from ipaddress import IPv4Address
 import base64
 
+
 class DynamicTar(TarFile):
     """Helper class to simplify addition of dynamically generated
         files to the docker container"""
@@ -59,10 +60,6 @@ class DynamicTar(TarFile):
         fileobj.write(b_str)
 
         return cls(fileobj=fileobj)
-
-
-
-
 
 
 def ceil_power_of_2(x):
