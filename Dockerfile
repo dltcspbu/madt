@@ -17,7 +17,7 @@ RUN apk add -U gcc \
                g++ \
                make \
                cmake \
-               openssh
+               openssh 
 
 # tc bugfix to allow delay distribution
 RUN ln -s /usr/lib/tc /lib/tc
@@ -40,15 +40,16 @@ WORKDIR /madt
 
 ADD ./ /madt
 
+ENV MADT_LABS_SOCKETS_DIR=/madt/sockets 
+ENV MADT_LABS_DIR=/madt/labs
+
 RUN ln -s /usr/lib/python3.7 /usr/lib/python3 && \
-    touch ~/.ashrc && ln -s ~/.ashrc ~/.bashrc && \
-    make && make install && \
+    touch ~/.bashrc && make && make install && \
     cp frps.ini /root/frp/frps.ini && \
     mkdir /etc/docker && \
     cp daemon.json /etc/docker/daemon.json
 
-ENTRYPOINT source ~/.ashrc && \
-           dockerd --oom-score-adjust 500 --log-level debug > /docker.log 2>&1 & \
+ENTRYPOINT dockerd --oom-score-adjust 500 --log-level debug > /docker.log 2>&1 & \
            if [[ "$MADT_RUNTIME" == "cluster" ]]; then \
                /root/frp/frps -c /root/frp/frps.ini > /root/frp/frp.log 2>&1 & \
            fi; \
