@@ -30,7 +30,7 @@ MLD:=$(MADT_LABS_DIR)
 
 HOSTNAME:=localhost 
 
-INSTALL_DIR:=$(shell python3 -c $$'import sys\nprint(sys.path)' | grep -oE "'[^']*packages'" | head -n 1)
+INSTALL_DIR:=$(shell python3 -c 'import sys; print(sys.path)' | grep -oE "'[^']*packages'" | head -n 1)
 
 
 ifeq ("$(USER)", "travis")
@@ -50,7 +50,7 @@ default:
 	@if [ ! -d "$(MADT_LABS_SOCKETS_DIR)" ]; then mkdir $(MADT_LABS_SOCKETS_DIR); fi
 
 install:
-	@echo "MADT dir is $(MADT_DIR)"
+	@echo "MADT dir is $(MADT_DIR); Installation dir is $(INSTALL_DIR)"
 	@cp -r $(MADT_DIR)/madt_lib $(INSTALL_DIR)
 	@cp -r $(MADT_DIR)/madt_ui $(INSTALL_DIR)
 	@ln -s $(INSTALL_DIR)/madt_ui/main.py /usr/local/bin/madt_ui

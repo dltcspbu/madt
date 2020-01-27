@@ -9,6 +9,7 @@ from contextlib import closing
 import tempfile
 import sys
 import shutil
+import socket
 
 from cryptography.hazmat.primitives import serialization as crypto_serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -20,7 +21,7 @@ port_range = list(range(9100, 9200))
 try:
     server_ip = os.environ['MADT_SERVER_ADDRESS']
 except KeyError:
-    server_ip = os.environ['HOSTNAME']
+    server_ip = socket.gethostname()
 
 def format_entrypoint(ep):
     if type(ep) is str:
