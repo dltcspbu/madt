@@ -234,6 +234,7 @@ class Network():
         new_net.nodes.append(gateway)
 
         self.local_networks.append(new_net)
+        gateway.type = Node.ROUTER
         return new_net
 
     def configure(self, verbose=False):

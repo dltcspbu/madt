@@ -16,7 +16,7 @@ from madt_ui.login import login_bp, login_manager
 from madt_ui.config import labs_dir
 
 # app = Flask(__name__)
-app = Quart(__name__)
+app = Quart(__name__, root_path=os.path.dirname(os.path.realpath(__file__)))
 app.register_blueprint(net_control_bp)
 app.register_blueprint(lab_visual_bp)
 app.register_blueprint(lab_control_bp)
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         sys.exit(0)
     '''
 
-    app.run(host='0.0.0.0', port=sys.argv[1], debug=False, threaded=False, processes=1)
+    app.run(host='0.0.0.0', port=sys.argv[1], debug=True, threaded=False, processes=1)
 
 
 
