@@ -3,7 +3,7 @@ import os
 import docker
 try:
    from .config import prefix
-except ModuleNotFoundError:
+except (ModuleNotFoundError, ImportError):
    from config import prefix
 
 # raise Exception(os.path.join(os.path.dirname(os.path.abspath(__file__))))
