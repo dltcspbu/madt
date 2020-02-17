@@ -37,8 +37,10 @@ class Subnet():
         self.address = address
 
         if gateway is None:
-            router = next(filter(lambda n: n.type == Node.ROUTER, nodes), None)
-            self.gateway = router
+            lan_gateway = next(filter(lambda n: n.type == Node.GATEWAY, nodes), None)
+            self.gateway = lan_gateway if lan_gateway else \
+                next(filter(lambda n: n.type == Node.ROUTER, nodes), None)
+
         else:
             self.gateway = gateway
 
