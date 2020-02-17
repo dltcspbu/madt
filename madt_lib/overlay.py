@@ -36,7 +36,8 @@ class Overlay:
             if self.protocol in node.quagga_settings:
                 raise Exception('Overalys of each type must be unique for node')
 
-            node.type = Node.ROUTER
+            if node.type != node.GATEWAY:
+                node.type = Node.ROUTER
             node.image = 'madt/quagga'
 
             node.quagga_settings[self.protocol] = {

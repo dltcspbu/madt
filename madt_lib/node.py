@@ -24,6 +24,7 @@ class Node():
 
     PC = 'PC'
     ROUTER = 'ROUTER'
+    GATEWAY = 'GATEWAY'
 
     def __str__(self):
         return self.name
@@ -84,7 +85,9 @@ class Node():
 
     def connect(self, node, subnet_name=None):
         """Connects a node to another with a subnet"""
-        return self.network.create_subnet(subnet_name or '{}_{}'.format(self.name, node.name), (self, node))
+        net = self.network if self.type != self.GATEWAY else node.network
+
+        return net.create_subnet(subnet_name or '{}_{}'.format(self.name, node.name), (self, node))
 
     def add_file(self, path, file):
         """Adds a file to node files.
@@ -127,7 +130,7 @@ class Node():
 
         return {
             'image': self.image,
-            'isRouter': self.type is self.ROUTER,
+            'isRouter': self.type in (self.ROUTER, self.GATEWAY),
             'networks': {ifc['subnet'].name: str(ifc['ip'])+'/'+str(ifc['subnet'].address.prefixlen) for ifc in self.interfaces},
             'options': self.docker_options,
             'enableInternet': self.enable_internet,
