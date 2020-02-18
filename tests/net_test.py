@@ -1,3 +1,5 @@
+import madt_ui.main as main
+
 import pytest
 import docker
 import requests
@@ -6,11 +8,8 @@ import asyncio
 import json
 import os
 
-import madt_ui
-import madt_ui.config
 from madt_ui import models
 from madt_ui import net_control
-import madt_ui.main as main
 from madt_ui.login import login
 
 app = main.app
