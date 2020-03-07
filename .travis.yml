@@ -8,6 +8,8 @@ python:
 cache: 
   pip
 install:
+  - sudo pip install pip wheel
+  - sudo pip install setuptools==24.0.3
   - sudo pip3 install -r ./requirements.txt
   - sudo make
   - sudo make install
