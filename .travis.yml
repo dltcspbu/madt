@@ -11,8 +11,8 @@ install:
   - sudo pip3 install pip wheel
   - sudo pip3 install setuptools==24.0.3
   - sudo pip3 install -r ./requirements.txt
-  - sudo make
-  - sudo make install
+  - make
+  - make install
 script:
   - coverage run -m unittest discover -s unit_tests -p "test_*.py"
 after_success:
