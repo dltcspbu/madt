@@ -4,11 +4,12 @@ addons:
     packages:
       - "python3-pip"
 python:
-  - "3.8"
+  - "3.7"
 cache: 
   pip
 install:
-  - sudo make && sudo make install
+  - sudo make
+  - sudo make install
 script:
   - coverage run -m unittest discover -s unit_tests -p "test_*.py"
 after_success:
