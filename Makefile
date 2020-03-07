@@ -29,8 +29,8 @@ MADT_LABS_SOCKETS_DIR:=$(MADT_DIR)/sockets
 MLD:=$(MADT_LABS_DIR)
 
 HOSTNAME:=localhost 
-
-INSTALL_DIR:=$(shell python3 -c 'import sys; print(sys.path)' | grep -oE "'[^']*packages'" | head -n 1)
+import site; site.getsitepackages()
+INSTALL_DIR:=$(shell python3 -c 'import site; print(site.getsitepackages()[0])')
 
 default:
 	@echo "Installation of $(PKG_NAME) started"
