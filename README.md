@@ -65,7 +65,7 @@ Caution! Work in progress!
 ```
 mkdir ~/madt/labs && export MADT_LABS_DIR=$HOME/madt/labs
 mkdir ~/madt/sockets && export MADT_LABS_SOCKETS_DIR=$HOME/madt/sockets
-sudo -HE env PYTHONPATH=$HOME/madt:$PYTHONPATH python3 madt_ui/main.py 80    
+sudo -HE env PYTHONPATH=$HOME/madt:$PYTHONPATH python3 madt_ui/main.py 80
 ```
 
 ## Docs
@@ -110,9 +110,9 @@ ports for server's tinc daemon to use. Port publication must map the to the same
 However, it's possible to change port range used by changling `PORT_RANGE` variable in cluster 
 runtime.
 ```bash
-   docker run -it -m 10GB --privileged --runtime kata-runtime --name madt \  
+   docker run -it -m 10GB --privileged --runtime kata-runtime --name madt \
         -v ~/madt/labs:/home/demo/labs \
-        -p 9080:80 -p 9022:22 -p 9077:7000 \ 
+        -p 9080:80 -p 9022:22 -p 9077:7000 \
         -p 9100-9200:9100-9200 \
         -e SSH_PWD=demo \
         -e MADT_SERVER_ADDRESS=40.112.66.112 madt:test
@@ -126,6 +126,6 @@ Note that before starting host you must make sure that both docker and ssh port 
         -e MADT_SERVER=40.112.66.112 \
         -e MADT_UI_PORT=9080 \
         -e MADT_FRPS_PORT=9077 \
-        -e SSH_PORT=9201 \   
+        -e SSH_PORT=9201 \
         -e DOCKER_PORT=9202 madt/host:test
 ```
