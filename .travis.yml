@@ -8,6 +8,7 @@ python:
 cache: 
   pip
 install:
+  - sudo pip3 install -r ./requirements.txt
   - sudo make
   - sudo make install
 script:
