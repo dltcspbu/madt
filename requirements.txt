@@ -1,8 +1,10 @@
-tcconfig 
-flask_login 
-quart 
-pyzmq 
-peewee 
+tcconfig
+flask==1.0.1
+flask_login==0.3
+quart==0.10.0
+pyzmq
+peewee
 cryptography
 coverage
 codecov
+Werkzeug==0.16.0
