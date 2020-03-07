@@ -32,11 +32,6 @@ HOSTNAME:=localhost
 
 INSTALL_DIR:=$(shell python3 -c 'import sys; print(sys.path)' | grep -oE "'[^']*packages'" | head -n 1)
 
-
-ifeq ("$(USER)", "travis")
-	INSTALL_DIR=/home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
-endif
-
 default:
 	@echo "Installation of $(PKG_NAME) started"
 	@echo "Check the requrements. Uninstalled python packages will be installed."
@@ -44,16 +39,16 @@ default:
 	@pip3 install -q -r requirements.txt
 	@if [ -d "tmpshards" ]; then rm -rf tmpshards; fi
 	@git clone https://github.com/DesignRevision/shards-dashboard.git tmpshards
-	@cp -r tmpshards/* madt_ui/static/
+	@cp -nfr tmpshards/* madt_ui/static/
 	@echo
-	@if [ ! -d "$(MADT_LABS_DIR)" ]; then mkdir $(MADT_LABS_DIR); fi
-	@if [ ! -d "$(MADT_LABS_SOCKETS_DIR)" ]; then mkdir $(MADT_LABS_SOCKETS_DIR); fi
+	@if [ ! -d "$(MADT_LABS_DIR)" ]; then mkdir -p $(MADT_LABS_DIR); fi
+	@if [ ! -d "$(MADT_LABS_SOCKETS_DIR)" ]; then mkdir -p $(MADT_LABS_SOCKETS_DIR); fi
 
 install:
 	@echo "MADT dir is $(MADT_DIR); Installation dir is $(INSTALL_DIR)"
-	@cp -r $(MADT_DIR)/madt_lib $(INSTALL_DIR)
-	@cp -r $(MADT_DIR)/madt_ui $(INSTALL_DIR)
-	@ln -s $(INSTALL_DIR)/madt_ui/main.py /usr/local/bin/madt_ui
+	@cp -nfr $(MADT_DIR)/madt_lib $(INSTALL_DIR)
+	@cp -nfr $(MADT_DIR)/madt_ui $(INSTALL_DIR)
+	@ln -sfn $(INSTALL_DIR)/madt_ui/main.py /usr/local/bin/madt_ui
 	@chmod +x $(INSTALL_DIR)/madt_ui/main.py
 	@cd madt_ui && python3 models.py && cd ../
 	@if grep -q 'export MADT_LABS_DIR'  ~/.bashrc ; then sed -i 's@export MADT_LABS_DIR=.*@export MADT_LABS_DIR=$(MADT_LABS_DIR)@g'  ~/.bashrc; else echo "export MADT_LABS_DIR=$(MADT_LABS_DIR)" >> ~/.bashrc; fi
