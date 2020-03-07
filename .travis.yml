@@ -4,7 +4,7 @@ addons:
     packages:
       - "python3-pip"
 python:
-  - "3.6"
+  - "3.8"
 cache: 
   pip
 install:
