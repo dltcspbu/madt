@@ -20,7 +20,7 @@ Main features of MADT:
  * [Hyperledger Fabric over madt (russian readme)](https://github.com/NightBlade97/Madt_HL_Fabric)
  
  ### Other
-  * [Kubernates with Istio over madt (russian readme)](https://github.com/IvPod/Madt_Kind) [Video (russian)](https://www.youtube.com/watch?v=SlaIgHL8YRc)
+  * [Kubernates with Istio over madt (russian readme)](https://github.com/OlegJakushkin/Madt_Kind) [Video (russian)](https://www.youtube.com/watch?v=SlaIgHL8YRc)
 
 ## Сore entities
 
