@@ -78,13 +78,6 @@ mkdir ~/madt/sockets && export MADT_LABS_SOCKETS_DIR=$HOME/madt/sockets
 sudo -HE env PYTHONPATH=$HOME/madt:$PYTHONPATH SSH_PWD=demo python3 madt_ui/main.py 80    
 ```
 
-## Docs
-
-English docs: http://madt.io/docs/
-
-Russian docs: http://madt.io/rudocs/
-
-
 ## Docker runtime
 ### Build sequence:
 #### Server:
