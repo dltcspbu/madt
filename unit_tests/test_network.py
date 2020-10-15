@@ -96,14 +96,6 @@ class TestNetworkOverlays(TestNetwork):
 		self.network.create_overlay(protocol=Overlay.RIP, name='test_RIP', nodes=nodes_rip)
 		self.assertTrue(Overlay.RIP in [overlay.protocol for overlay in self.network.get_overlays(protocol=Overlay.RIP)])
 
-class TestNetworkLocalNetwork(TestNetwork):
-	def test_create_local_network(self):
-		with self.assertRaises(Exception):
-			self.network.create_local_network(gateway=None, main_subnet=0)
-
-		self.network.create_local_network(gateway=None, name='test_local_network')
-		self.assertTrue('test_local_network' in [network.name for network in self.network.local_networks])
-
 class TestNetworkConfigure(TestNetwork):
 	def test_configure(self):
 		nodes=self.network.generate_nodes(prefix='test', num=10)
