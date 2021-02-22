@@ -71,7 +71,7 @@ Grey nodes are inactive. Blue nodes are the ones who were active earlier.
 Caution! Work in progress!
 
 ## How to launch MADT without installation
-
+Login and password are `demo`
 ```
 mkdir ~/madt/labs && export MADT_LABS_DIR=$HOME/madt/labs
 mkdir ~/madt/sockets && export MADT_LABS_SOCKETS_DIR=$HOME/madt/sockets
